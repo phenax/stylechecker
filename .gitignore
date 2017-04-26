@@ -2,6 +2,7 @@ tmp
 node_modules
 
 stylechecker
+stupidsid.json
 
 config/db.prod.go
 

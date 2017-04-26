@@ -52,6 +52,7 @@ func useLinter(linter *linter.Linter) bool {
 	return true
 }
 
+
 func colorPrint(color int, str string) {
 	fmt.Printf("\033[%dm%s\033[0m", color, str)
 }
@@ -59,7 +60,17 @@ func colorPrint(color int, str string) {
 
 func configInit() {
 
-	path, _ := filepath.Abs(".")
+	path, _ := filepath.Abs("./stupidsid.json")
 
-	config.Create(path)
+	err := config.Create(path, &config.StupidsidConfig{
+		Name: "foo",
+		Description: "baar",
+		Paths: map[string]string {
+			"root": ".",
+			"js": ".",
+		},
+	})
+
+	if err != nil { panic(err) }
+
 }

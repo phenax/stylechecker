@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"encoding/json"
+	"bytes"
 )
 
 type StupidsidConfig struct {
@@ -43,8 +44,24 @@ func LoadConfigFile(pathname string) (*StupidsidConfig, error) {
 }
 
 
-func Create(pathname string) {
+func CompileConfigTemplate(conf *StupidsidConfig) []byte {
 
-	
+	content, _ := json.Marshal(conf)
+
+	var indentedJSON bytes.Buffer;
+
+	json.Indent(&indentedJSON, content, "", "    ")
+
+	return indentedJSON.Bytes();
+}
+
+
+func Create(pathname string, conf *StupidsidConfig) error {
+
+	content := CompileConfigTemplate(conf)
+
+	err := ioutil.WriteFile(pathname, content, 0777)
+
+	return err
 }
 
