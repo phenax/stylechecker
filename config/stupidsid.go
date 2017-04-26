@@ -69,7 +69,7 @@ func LoadConfigFile(pathname string) (*StupidsidConfig, error) {
 	// All Paths inside config
 	for key, val := range conf.Paths {
 		if key != "root" {
-			conf.Paths[key] = filepath.Join(conf.Paths["root"], val)
+			conf.Paths[key + "_absolute"] = filepath.Join(conf.Paths["root"], val)
 		}
 	}
 

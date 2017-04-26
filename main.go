@@ -45,6 +45,7 @@ func main() {
 
 	// Load the config file and create the instance
 	conf, err := config.LoadConfigFile(configFile)
+
 	if err != nil {
 		colorPrint(ErrorMessage, err.Error() + "\n")
 		return
@@ -66,9 +67,9 @@ func main() {
 	// Show what went wrong
 	errorLangs := ""
 
-	if(isPHPSafe) { errorLangs+= ", PHP" }
-	if(isJSSafe) { errorLangs+= ", JS" }
-	if(isCSSSafe) { errorLangs+= ", CSS" }
+	if(!isPHPSafe) { errorLangs+= ", PHP" }
+	if(!isJSSafe) { errorLangs+= ", JS" }
+	if(!isCSSSafe) { errorLangs+= ", CSS" }
 
 	colorPrint(InfoMessage, "Error in" + errorLangs + "\n")
 }
