@@ -11,10 +11,13 @@ import (
 
 
 const (
+
 	// ErrorMessage - Color for error messages
 	ErrorMessage = 31
+
 	// SuccessMessage - Color for success messages
 	SuccessMessage = 32
+
 	// InfoMessage - Color for info
 	InfoMessage = 38
 )
@@ -54,7 +57,7 @@ func main() {
 	// Language specific linting goes here
 	isPHPSafe := useLinter(linter.NewPHPLinter(conf.Paths["php"]))
 	isJSSafe := useLinter(linter.NewJSLinter(conf.Paths["js"]))
-	isCSSSafe := useLinter(linter.NewCSSLinter(conf.Paths["js"]))
+	isCSSSafe := useLinter(linter.NewCSSLinter(conf.Paths["css"]))
 
 	// Error message
 	if isPHPSafe && isJSSafe && isCSSSafe {
