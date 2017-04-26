@@ -142,9 +142,6 @@ func GenerateConfigFile(filename string, dest string) error {
 	// Compile the template
 	content := compile()
 
-	fmt.Println(filepath.Join(dest, filename))
-	fmt.Println([]byte(content))
-
 	// Write the compiled template out to the destination
 	err := ioutil.WriteFile(
 		filepath.Join(dest, filename),
