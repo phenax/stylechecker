@@ -11,8 +11,10 @@ import (
 // Linter - Linter instance
 //
 type Linter struct {
+
 	// Name - Linter name/path to linter
 	Name string
+
 	// Args - command line arguements
 	Args []string
 }
@@ -37,7 +39,7 @@ func (linter *Linter) Lint() error {
 //
 func (linter *Linter) Exec() error {
 	command := exec.Command(linter.Name, linter.Args...)
-	command.Stdout = os.Stdout;
+	command.Stdout = os.Stdout
 
 	return command.Run()
 }

@@ -21,14 +21,14 @@ const (
 type StupidsidConfig struct {
 
 	// Name - The project name
-	Name string;
+	Name string
 
 	// Description - Some information about the project
-	Description string;
+	Description string
 
 	// Paths - Relative paths to the root field
 	// { root, php, js, css }
-	Paths map[string]string;
+	Paths map[string]string
 }
 
 
@@ -37,7 +37,7 @@ type StupidsidConfig struct {
 //
 func (conf *StupidsidConfig) String() string {
 	format := "{\n\tName: %s,\n\tDescription: %s,\n\tPaths: %+v\n}"
-	return fmt.Sprintf(format, conf.Name, conf.Description, conf.Paths);
+	return fmt.Sprintf(format, conf.Name, conf.Description, conf.Paths)
 }
 
 
@@ -89,14 +89,14 @@ func LoadConfigFile(pathname string) (*StupidsidConfig, error) {
 //
 func CompileConfigTemplate(conf *StupidsidConfig) []byte {
 
-	var indentedJSON bytes.Buffer;
+	var indentedJSON bytes.Buffer
 
 	content, _ := json.Marshal(conf)
 
 	// Add indentation to config
 	json.Indent(&indentedJSON, content, "", ConfigIndentation)
 
-	return indentedJSON.Bytes();
+	return indentedJSON.Bytes()
 }
 
 

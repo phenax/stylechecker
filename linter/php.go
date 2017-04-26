@@ -17,7 +17,7 @@ func NewPHPLinter(phpRoot string) (*Linter) {
 
 	phpRootAbsolutePath, _ := filepath.Abs(phpRoot)
 
-	phpcsPath, _ := filepath.Join(phpRootAbsolutePath, "../", "vendor/bin/phpcs")
+	phpcsPath := filepath.Join(phpRootAbsolutePath, "../", "vendor/bin/phpcs")
 
 	return &Linter{
 

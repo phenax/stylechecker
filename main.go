@@ -12,9 +12,11 @@ import (
 
 const (
 	// ErrorMessage - Color for error messages
-	ErrorMessage = 31;
+	ErrorMessage = 31
 	// SuccessMessage - Color for success messages
-	SuccessMessage = 32;
+	SuccessMessage = 32
+	// InfoMessage - Color for info
+	InfoMessage = 38
 )
 
 
@@ -23,14 +25,14 @@ const (
 func main() {
 
 	args := os.Args[:]
-	var configFile string;
+	var configFile string
 
 	// Make sense of the arguements
 	if(len(args) >= 2) {
 		switch(args[1]) {
 			case "init": {
 				configInit()
-				return;
+				return
 			}
 			default: {
 				configFile, _ = filepath.Abs(args[1])
@@ -43,16 +45,31 @@ func main() {
 
 	// Load the config file and create the instance
 	conf, err := config.LoadConfigFile(configFile)
-	if err != nil { panic(err) }
+	if err != nil {
+		colorPrint(ErrorMessage, err.Error() + "\n")
+		return
+	}
 
 	// Language specific linting goes here
 	isPHPSafe := useLinter(linter.NewPHPLinter(conf.Paths["php"]))
 	isJSSafe := useLinter(linter.NewJSLinter(conf.Paths["js"]))
+	isCSSSafe := useLinter(linter.NewCSSLinter(conf.Paths["js"]))
 
 	// Error message
-	if isPHPSafe && isJSSafe {
-		colorPrint(SuccessMessage, "You are good to go. Push away my friend.\n");
+	if isPHPSafe && isJSSafe && isCSSSafe {
+		colorPrint(SuccessMessage, "You are good to go. Push away my friend.\n")
+		return
 	}
+
+
+	// Show what went wrong
+	errorLangs := ""
+
+	if(isPHPSafe) { errorLangs+= ", PHP" }
+	if(isJSSafe) { errorLangs+= ", JS" }
+	if(isCSSSafe) { errorLangs+= ", CSS" }
+
+	colorPrint(InfoMessage, "Error in" + errorLangs + "\n")
 }
 
 
@@ -127,6 +144,6 @@ func configInit() {
 	_, err = os.Stat(p)
 
 	if err != nil {
-		colorPrint(ErrorMessage, "You need to copy the .eslintrc.json file or generate it with `eslint --init`\n");
+		colorPrint(ErrorMessage, "You need to copy the .eslintrc.json file or generate it with `eslint --init`\n")
 	}
 }
