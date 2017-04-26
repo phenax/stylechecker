@@ -4,6 +4,15 @@ import (
 	"path/filepath"
 )
 
+//
+// NewPHPLinter - Create a new linter instance for linting php
+// 
+// params
+// -- phpRoot {string} PHP source root directory
+// 
+// returns
+// -- {*Linter}
+//
 func NewPHPLinter(phpRoot string) (*Linter) {
 
 	path, _ := filepath.Abs(".")
