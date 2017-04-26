@@ -26,6 +26,8 @@ func NewJSLinter(jsRoot string) (*Linter) {
 			"--config",
 			filepath.Join(path, ".eslintrc.json"),
 			jsRootAbsolutePath,
+			"--ignore-pattern",
+			"vendor/*",
 		},
 	}
 }

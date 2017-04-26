@@ -61,6 +61,7 @@ func main() {
 		return
 	}
 
+	colorPrint(ErrorMessage, "Not so fast. Fix all of this before the push\n\n")
 
 	// Show what went wrong
 	errorLangs := ""
@@ -89,12 +90,7 @@ func useLinter(linter *linter.Linter) bool {
 	// Execute the linter
 	err := linter.Lint()
 
-	if(err != nil) {
-		colorPrint(ErrorMessage, "Not so fast. Fix all of this before the push\n\n")
-		return false
-	}
-
-	return true
+	return err == nil
 }
 
 
