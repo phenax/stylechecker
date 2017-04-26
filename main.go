@@ -10,6 +10,15 @@ import (
 )
 
 
+const (
+	// ErrorMessage - Color for error messages
+	ErrorMessage = 31;
+	// SuccessMessage - Color for success messages
+	SuccessMessage = 32;
+)
+
+
+
 // Main fn
 func main() {
 
@@ -37,11 +46,12 @@ func main() {
 	if err != nil { panic(err) }
 
 	// Language specific linting goes here
+	isPHPSafe := useLinter(linter.NewPHPLinter(conf.Paths["php"]))
 	isJSSafe := useLinter(linter.NewJSLinter(conf.Paths["js"]))
 
 	// Error message
-	if isJSSafe {
-		colorPrint(32, "You are good to go. Push away my friend.\n");
+	if isPHPSafe && isJSSafe {
+		colorPrint(SuccessMessage, "You are good to go. Push away my friend.\n");
 	}
 }
 
@@ -59,10 +69,11 @@ func useLinter(linter *linter.Linter) bool {
 
 	fmt.Println("\n", linter, "\n")
 
+	// Execute the linter
 	err := linter.Lint()
 
 	if(err != nil) {
-		colorPrint(31, "Not so fast. Fix all of this before the push\n\n")
+		colorPrint(ErrorMessage, "Not so fast. Fix all of this before the push\n\n")
 		return false
 	}
 
@@ -82,6 +93,7 @@ func colorPrint(color int, str string) {
 }
 
 
+
 //
 // configInit - Initialize the config files for the root directory
 //
@@ -89,6 +101,7 @@ func configInit() {
 
 	path, _ := filepath.Abs("./stupidsid.json")
 
+	// Create a default stupidsid.json file
 	err := config.Create(path, &config.StupidsidConfig{
 		Name: "foo",
 		Description: "baar",
@@ -107,13 +120,13 @@ func configInit() {
 	_, err = exec.LookPath("eslint")
 
 	if err != nil {
-		colorPrint(31, "You need to install eslint\n")
+		colorPrint(ErrorMessage, "You need to install eslint\n")
 	}
 
 	p, _ := filepath.Abs("./.eslintrc.json")
 	_, err = os.Stat(p)
 
 	if err != nil {
-		colorPrint(31, "You need to copy the .eslintrc.json file or generate it with `eslint --init`\n");
+		colorPrint(ErrorMessage, "You need to copy the .eslintrc.json file or generate it with `eslint --init`\n");
 	}
 }

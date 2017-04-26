@@ -15,17 +15,16 @@ import (
 //
 func NewPHPLinter(phpRoot string) (*Linter) {
 
-	path, _ := filepath.Abs(".")
-	jsRootAbsolutePath, _ := filepath.Abs(phpRoot)
+	phpRootAbsolutePath, _ := filepath.Abs(phpRoot)
+
+	phpcsPath, _ := filepath.Join(phpRootAbsolutePath, "../", "vendor/bin/phpcs")
 
 	return &Linter{
 
-		Name: "eslint",
+		Name: phpcsPath,
 
 		Args: []string{
-			"--config",
-			filepath.Join(path, ".eslintrc.json"),
-			jsRootAbsolutePath,
+			phpRootAbsolutePath,
 		},
 	}
 }
