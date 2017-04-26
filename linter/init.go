@@ -1,8 +1,8 @@
 package linter
 
 import (
-	"os/exec"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -15,14 +15,11 @@ func (linter *Linter) String() string {
 	return "Command: " + linter.Name + " " + strings.Join(linter.Args[:], " ")
 }
 
-
-func (linter *Linter) Lint() ([]byte, error) {
+func (linter *Linter) Lint() error {
 
 	command := exec.Command(linter.Name, linter.Args...)
 	command.Stdout = os.Stdout;
 
-	err := command.Run()
-
-	return nil, err
+	return command.Run()
 }
 

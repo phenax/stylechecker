@@ -1,0 +1,10 @@
+{
+	"Name": "cool",
+	"Description": "Hello world",
+	"Paths": {
+		"root": ".",
+		"php": ".",
+		"js": ".",
+		"css": "."
+	}
+}

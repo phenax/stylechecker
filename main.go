@@ -3,7 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	// "io/ioutil"
+	"path/filepath"
+	"github.com/phenax/stylechecker/config"
 	"github.com/phenax/stylechecker/linter"
 )
 
@@ -11,18 +12,54 @@ import (
 func main() {
 
 	args := os.Args[:]
+	var configFile string;
 
-	fmt.Println(args);
+	if(len(args) >= 2) {
 
-	// ioutil
+		switch(args[1]) {
+			case "init": {
+				configInit()
+				return;
+			}
+		}
 
-
-	eslint := linter.NewJSLinter("/var/www/html/stupidsid/static/js")
-	fmt.Println(eslint);
-
-	_, err := eslint.Lint()
-
-	if err != nil {
-		// Error found
+		configFile, _ = filepath.Abs(args[1])
+	} else {
+		configFile, _ = filepath.Abs("./stupidsid.json")
 	}
+
+	conf, err := config.LoadConfigFile(configFile)
+	if err != nil { panic(err) }
+
+	jsStatus := useLinter(linter.NewJSLinter(conf.Paths["js"]))
+
+	if(jsStatus) {
+		colorPrint(32, "You are good to go. Push away my friend.\n");
+	}
+}
+
+func useLinter(linter *linter.Linter) bool {
+
+	fmt.Println("\n", linter, "\n")
+
+	err := linter.Lint()
+
+	if(err != nil) {
+		colorPrint(31, "Not so fast. Fix all of this before the push\n\n")
+		return false
+	}
+
+	return true
+}
+
+func colorPrint(color int, str string) {
+	fmt.Printf("\033[%dm%s\033[0m", color, str)
+}
+
+
+func configInit() {
+
+	path, _ := filepath.Abs(".")
+
+	config.Create(path)
 }
