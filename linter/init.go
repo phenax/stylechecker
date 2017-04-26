@@ -36,6 +36,9 @@ func (linter *Linter) Lint() error {
 
 //
 // Excute the command given in the linter config
+// 
+// returns
+// -- {error}
 //
 func (linter *Linter) Exec() error {
 	command := exec.Command(linter.Name, linter.Args...)

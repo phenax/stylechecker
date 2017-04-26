@@ -10,7 +10,10 @@ import (
 
 
 const (
+	// The indentation for the config file
 	ConfigIndentation = "    "
+
+	// All config file permissions
 	ConfigFilePermission = 0777
 )
 
@@ -115,6 +118,39 @@ func Create(pathname string, conf *StupidsidConfig) error {
 	content := CompileConfigTemplate(conf)
 
 	err := ioutil.WriteFile(pathname, content, ConfigFilePermission)
+
+	return err
+}
+
+
+
+//
+// GenerateConfigFile - Generate a given config file
+// 
+// params
+// -- filename {string}  The config filename
+// -- dest {string}  The destination directory
+// 
+// returns
+// -- {error}
+//
+func GenerateConfigFile(filename string, dest string) error {
+
+	compile := GetTemplateFn(filename)
+	if compile == nil { return nil }
+
+	// Compile the template
+	content := compile()
+
+	fmt.Println(filepath.Join(dest, filename))
+	fmt.Println([]byte(content))
+
+	// Write the compiled template out to the destination
+	err := ioutil.WriteFile(
+		filepath.Join(dest, filename),
+		[]byte(content),
+		ConfigFilePermission,
+	)
 
 	return err
 }

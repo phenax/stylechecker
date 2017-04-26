@@ -116,12 +116,13 @@ func colorPrint(color int, str string) {
 //
 func configInit() {
 
-	path, _ := filepath.Abs("./stupidsid.json")
+	absoluteRoot, _ := filepath.Abs(".")
+	configPath := filepath.Join(absoluteRoot, "stupidsid.json")
 
 	// Create a default stupidsid.json file
-	err := config.Create(path, &config.StupidsidConfig{
-		Name: "foo",
-		Description: "baar",
+	err := config.Create(configPath, &config.StupidsidConfig{
+		Name: "project-name",
+		Description: "Some information about the project",
 		Paths: map[string]string {
 			"root": ".",
 			"js": "./static/js",
@@ -132,7 +133,6 @@ func configInit() {
 
 	if err != nil { panic(err) }
 
-
 	// ESLint config file generation
 	_, err = exec.LookPath("eslint")
 
@@ -140,10 +140,21 @@ func configInit() {
 		colorPrint(ErrorMessage, "You need to install eslint\n")
 	}
 
-	p, _ := filepath.Abs("./.eslintrc.json")
-	_, err = os.Stat(p)
+	// Generate the sass config file
+	errCSS := config.GenerateConfigFile(
+		config.SCSSConfigFilename,
+		absoluteRoot,
+	)
 
-	if err != nil {
-		colorPrint(ErrorMessage, "You need to copy the .eslintrc.json file or generate it with `eslint --init`\n")
+	// Generate the js config file
+	errJS := config.GenerateConfigFile(
+		config.JSConfigFilename,
+		absoluteRoot,
+	)
+
+	// Error check
+	if(errCSS != nil || errCSS != nil) {
+		fmt.Println(errCSS, errJS)
+		return
 	}
 }
