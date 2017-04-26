@@ -2,20 +2,27 @@ package linter
 
 import (
 	"os/exec"
+	"os"
+	"strings"
 )
 
 type Linter struct {
-	name string
-	args []string
+	Name string
+	Args []string
+}
+
+func (linter *Linter) String() string {
+	return "Command: " + linter.Name + " " + strings.Join(linter.Args[:], " ")
 }
 
 
-func (linter *Linter) Lint() (string, error) {
+func (linter *Linter) Lint() ([]byte, error) {
 
-	stdout, err := exec.
-		Command(linter.name, linter.args...).
-		Output()
+	command := exec.Command(linter.Name, linter.Args...)
+	command.Stdout = os.Stdout;
 
-	return string(stdout), err
+	err := command.Run()
+
+	return nil, err
 }
 

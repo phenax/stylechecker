@@ -1,13 +1,22 @@
 package linter
 
-func NewJSLinter() (*Linter) {
+import (
+	"path/filepath"
+)
+
+func NewJSLinter(jsRoot string) (*Linter) {
+
+	path, _ := filepath.Abs(".")
+	jsRootAbsolutePath, _ := filepath.Abs(jsRoot)
 
 	return &Linter{
 
-		name: "echo",
+		Name: "eslint",
 
-		args: []string{
-			"foobar",
+		Args: []string{
+			"--config",
+			filepath.Join(path, ".eslintrc.json"),
+			jsRootAbsolutePath,
 		},
 	}
 }
