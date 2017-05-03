@@ -32,6 +32,9 @@ type StupidsidConfig struct {
 	// Paths - Relative paths to the root field
 	// { root, php, js, css }
 	Paths map[string]string
+
+	// Changes and info logged
+	Meta map[string]interface{}
 }
 
 
