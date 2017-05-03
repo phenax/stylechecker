@@ -37,9 +37,7 @@ func main() {
 				configInit()
 				return
 			}
-			default: {
-				configFile, _ = filepath.Abs(args[1])
-			}
+			default: configFile, _ = filepath.Abs(args[1])
 		}
 	} else {
 		// By default look for the config in the current directory
@@ -61,11 +59,11 @@ func main() {
 
 	// Error message
 	if isPHPSafe && isJSSafe && isCSSSafe {
+		// TODO: git push option(if a flag is passed, push automatically)
 		colorPrint(SuccessMessage, "You are good to go. Push away my friend.\n")
 		return
 	}
 
-	colorPrint(ErrorMessage, "Not so fast. Fix all of this before the push\n\n")
 
 	// Show what went wrong
 	errorLangs := ""
@@ -74,7 +72,8 @@ func main() {
 	if(!isJSSafe) { errorLangs+= ", JS" }
 	if(!isCSSSafe) { errorLangs+= ", CSS" }
 
-	colorPrint(InfoMessage, "Error in" + errorLangs + "\n")
+	colorPrint(ErrorMessage, "\n\nNot so fast. Fix all of this before the push\n")
+	colorPrint(InfoMessage, "Error(s) in " + errorLangs + "\n")
 }
 
 
