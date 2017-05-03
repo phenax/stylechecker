@@ -128,6 +128,7 @@ func configInit() {
 			"css": "./static/css",
 			"php": "./src",
 		},
+		Meta: map[string]interface{} {},
 	})
 
 	if err != nil { panic(err) }
